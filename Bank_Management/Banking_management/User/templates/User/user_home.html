@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+  <style>
+    nav{
+        text-transform: uppercase;
+      }
+  </style>
+</head>
+
+<body>
+  <!-- navbar start -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'User:user_home'%}"><b>
+          <h1><i>Bank-Management</i></h1>
+        </b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'User:user_home'%}"><i><b>HOME</b></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'User:user_profile'%}"><b><i>User-Profile</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'User:deposit'%}"><b><i>Deposit</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'User:transfer'%}"><b><i>Transfer</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'User:transaction_details'%}"><b><i>Transaction_Details</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'User:register_complaint'%}"><b><i>Register_Complaint</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'User:index'%}"><b><i>Logout</i></b></a>
+          </li>
+          <li class="nav-item dropdown">
+            </a>
+            <ul class="dropdown-menu">
+            </ul>
+          </li>
+          <li class="nav-item">
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <!-- navbar end -->
+  <!-- Carousel -->
+  <div id="carouselExampleInterval" class="carousel slide mt-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="3000">
+        <img src="https://i.postimg.cc/TwNTKxB4/premium-photo-1677487978431-cd86f0979bf8.avif" class="d-block w-100"
+          alt="Slide 1" style="height: 700px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Manage Your Finances Efficiently</h5>
+          <p>Secure banking from the comfort of your home.</p>
+        </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="https://i.postimg.cc/sxtyJcjP/photo-1532033375034-a29004ea9769.avif" class="d-block w-100"
+          alt="Slide 2" style="height: 700px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Trusted Banking Services</h5>
+          <p>Experience the best financial services with us.</p>
+        </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="https://i.postimg.cc/wxS725bb/premium-photo-1679923814027-2afd45cd2563.avif" class="d-block w-100"
+          alt="Slide 3" style="height: 700px;">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>24/7 Customer Support</h5>
+          <p>We’re here for you, anytime, anywhere.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-4">
+        <nav id="navbar-example3" class="h-100 flex-column align-items-stretch pe-4 border-end">
+          <nav class="nav nav-pills flex-column">
+            <a class="nav-link" href="#account-overview">Account Overview</a>
+            <a class="nav-link" href="#transaction-history">Transaction History</a>
+            <a class="nav-link" href="#account-statements">Account Statements</a>
+            <a class="nav-link" href="#transfer-funds">Transfer Funds</a>
+            <a class="nav-link" href="#manage-account">Manage Account</a>
+            <a class="nav-link" href="#update-profile">Update Profile</a>
+            <a class="nav-link" href="#contact-support">Contact Support</a>
+          </nav>
+        </nav>
+      </div>
+
+      <div class="col-8">
+        <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true"
+          class="scrollspy-example-2">
+          <!-- content start -->
+
+
+          <div class="col-8">
+            <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true"
+              class="scrollspy-example-2" tabindex="0">
+              <!-- Account Overview -->
+              <div id="account-overview">
+                <h4>Account Overview</h4>
+                <p>Your account overview provides a snapshot of your bank account details:</p>
+                <ul>
+                  <li><strong>Account Number:</strong> 1234567890</li>
+                  <li><strong>Account Type:</strong> Savings Account</li>
+                  <li><strong>Current Balance:</strong> $15,240.67</li>
+                  <li><strong>Account Holder:</strong> John Doe</li>
+                  <li><strong>Date Opened:</strong> January 12, 2015</li>
+                </ul>
+              </div>
+
+              <!-- Transaction History -->
+              <div id="transaction-history">
+                <h5>Transaction History</h5>
+                <p>Here are your most recent transactions:</p>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Transaction</th>
+                      <th>Amount</th>
+                      <th>Balance After</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>October 10, 2024</td>
+                      <td>Salary Deposit</td>
+                      <td>+ $3,500.00</td>
+                      <td>$15,240.67</td>
+                    </tr>
+                    <tr>
+                      <td>October 7, 2024</td>
+                      <td>Grocery Store Purchase</td>
+                      <td>- $120.45</td>
+                      <td>$11,740.67</td>
+                    </tr>
+                    <tr>
+                      <td>October 1, 2024</td>
+                      <td>Utility Bill Payment</td>
+                      <td>- $75.60</td>
+                      <td>$11,861.12</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Account Statements -->
+              <div id="account-statements">
+                <h5>Account Statements</h5>
+                <p>You can download your account statements for the past year:</p>
+                <ul>
+                  <li><a href="#">September 2024 Statement (PDF)</a></li>
+                  <li><a href="#">August 2024 Statement (PDF)</a></li>
+                  <li><a href="#">July 2024 Statement (PDF)</a></li>
+                  <li><a href="#">June 2024 Statement (PDF)</a></li>
+                </ul>
+              </div>
+
+              <!-- Transfer Funds -->
+              <div id="transfer-funds">
+                <h4>Transfer Funds</h4>
+                <p>Easily transfer funds between your accounts or to another account holder.</p>
+                <ul>
+                  <li><strong>From:</strong> Savings Account</li>
+                  <li><strong>To:</strong> Checking Account</li>
+                  <li><strong>Amount:</strong> $500.00</li>
+                  <li><button class="btn btn-primary">Transfer Now</button></li>
+                </ul>
+              </div>
+
+              <!-- Manage Account -->
+              <div id="manage-account">
+                <h4>Manage Account</h4>
+                <p>Customize your account settings:</p>
+                <ul>
+                  <li><a href="#">Enable Two-Factor Authentication</a></li>
+                  <li><a href="#">Manage Email Preferences</a></li>
+                  <li><a href="#">Close Account</a></li>
+                </ul>
+              </div>
+
+              <!-- Update Profile -->
+              <div id="update-profile">
+                <h5>Update Profile</h5>
+                <p>Update your personal information:</p>
+                <ul>
+                  <li><strong>Current Address:</strong> 123 Main St, Springfield, USA</li>
+                  <li><strong>Phone Number:</strong> (123) 456-7890</li>
+                  <li><strong>Email:</strong> john.doe@example.com</li>
+                  <li><a href="#">Edit Profile Information</a></li>
+                </ul>
+              </div>
+
+              <!-- Change Password -->
+              <div id="change-password">
+                <h5>Change Password</h5>
+                <p>For better security, we recommend updating your password regularly.</p>
+                <ul>
+                  <li><a href="#">Change Password</a></li>
+                </ul>
+              </div>
+
+              <!-- Contact Support -->
+              <div id="contact-support">
+                <h4>Contact Support</h4>
+                <p>If you have any questions or encounter any issues, feel free to reach out to our customer support:
+                </p>
+                <ul>
+                  <li><strong>Email:</strong> support@bankname.com</li>
+                  <li><strong>Phone:</strong> (123) 456-7890</li>
+                  <li><strong>Support Hours:</strong> Mon-Fri, 9:00 AM - 6:00 PM</li>
+                  <li><a href="#">Submit a Support Ticket</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <br><br>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card">
+          <img src="https://i.postimg.cc/XvgpbybJ/download.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+              content. This content is a little bit longer.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://i.postimg.cc/XvgpbybJ/download.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+              content. This content is a little bit longer.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://i.postimg.cc/XvgpbybJ/download.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
+              content.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer start -->
+  <footer class="bg-body-tertiary text-center">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: Social media -->
+      <section class="mb-4">
+        <!-- Facebook -->
+        <a data-mdb-ripple-init class="btn text-white btn-floating m-1" style="background-color: #3b5998;" href="#!"
+          role="button"><i class="fab fa-facebook-f"></i></a>
+
+        <!-- Twitter -->
+        <a data-mdb-ripple-init class="btn text-white btn-floating m-1" style="background-color: #55acee;" href="#!"
+          role="button"><i class="fab fa-twitter"></i></a>
+
+        <!-- Google -->
+        <a data-mdb-ripple-init class="btn text-white btn-floating m-1" style="background-color: #dd4b39;" href="#!"
+          role="button"><i class="fab fa-google"></i></a>
+
+        <!-- Instagram -->
+        <a data-mdb-ripple-init class="btn text-white btn-floating m-1" style="background-color: #ac2bac;" href="#!"
+          role="button"><i class="fab fa-instagram"></i></a>
+
+        <!-- Linkedin -->
+        <a data-mdb-ripple-init class="btn text-white btn-floating m-1" style="background-color: #0082ca;" href="#!"
+          role="button"><i class="fab fa-linkedin-in"></i></a>
+        <!-- Github -->
+        <a data-mdb-ripple-init class="btn text-white btn-floating m-1" style="background-color: #333333;" href="#!"
+          role="button"><i class="fab fa-github"></i></a>
+      </section>
+      <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2024 Copyright: AshiQ & Swalih
+      <a class="text-body" href="https://mdbootstrap.com/">bankmanagement.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+</body>
+
+</html>

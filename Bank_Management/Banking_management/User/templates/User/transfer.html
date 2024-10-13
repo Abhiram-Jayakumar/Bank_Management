@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Money</title>
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+    <style>
+      /* Card styling */
+      nav{
+        text-transform: uppercase;
+      }
+      .card {
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+          background-color: #fff;
+      }
+
+      /* Header styling */
+      .card-header {
+          background-color: #007bff; /* Bootstrap primary color */
+          color: white;
+          padding: 20px;
+          border-bottom: 0;
+          text-align: center;
+          font-weight: bold;
+          text-transform: uppercase;
+      }
+
+      /* Body styling */
+      .card-body {
+          padding: 30px;
+          font-size: 16px;
+      }
+
+      .form-label {
+          font-weight: bold;
+          color: #007bff;
+      }
+
+      .form-control {
+          border-radius: 5px;
+          padding: 10px;
+          font-size: 16px;
+      }
+
+      /* Button styling */
+      button {
+          width: 100%;
+          padding: 10px;
+          margin-top: 20px;
+          background-color: #007bff; /* Bootstrap primary color */
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 18px;
+          font-weight: bold;
+          transition: background-color 0.3s;
+      }
+
+      button:hover {
+          background-color: #0056b3; /* Darker shade of blue */
+          cursor: pointer;
+      }
+
+      /* Message styling */
+      #insufficient-funds-message {
+          display: none;
+          color: red; /* Red color for error messages */
+          font-weight: bold;
+      }
+
+      /* Container styling */
+      .container {
+          max-width: 500px;
+          margin: 60px auto;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+          .container {
+              padding: 10px;
+          }
+      }
+  </style>
+</head>
+<body>
+    <!-- navbar start -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'User:user_home'%}"><b><h1><i>Bank-Management</i></h1></b></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'User:user_home'%}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:user_profile'%}">user_profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:deposit'%}">deposit</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:transfer'%}">transfer</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:transaction_details'%}">transaction_details</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:register_complaint'%}">register_complaint</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:index'%}">Logout</a>
+              </li>
+              <li class="nav-item dropdown">
+                </a>
+                <ul class="dropdown-menu">
+                </ul>
+              </li>
+              <li class="nav-item">
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <!-- navbar end -->
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Transfer Money</h4>
+            </div>
+            <div class="card-body">
+                <!-- Display current balance -->
+                <p>Your Current Balance: <span id="current_balance" class="fw-bold">{{ user.balance }}</span></p>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="recipient_account_number" class="form-label">Recipient Account Number:</label>
+                        <input type="text" name="recipient_account_number" id="recipient_account_number" class="form-control" required>
+                    </div>
+
+                    <div id="recipient_details" style="display: none;" class="mb-3">
+                        <p><strong>Name:</strong> <span id="recipient_name"></span></p>
+                        <p><strong>Email:</strong> <span id="recipient_email"></span></p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="transfer_amount" class="form-label">Amount:</label>
+                        <input type="number" name="amount" step="0.01" id="transfer_amount" class="form-control" required>
+                    </div>
+
+                    <p id="insufficient-funds-message">Insufficient balance for this transaction.</p>
+
+                    <button type="submit" class="btn btn-primary">Transfer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#recipient_account_number').on('blur', function() {
+                var accountNumber = $(this).val();
+                if (accountNumber) {
+                    $.ajax({
+                        url: '{% url "User:get_user_details" %}',
+                        data: {
+                            'account_number': accountNumber
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.success) {
+                                $('#recipient_name').text(data.full_name);
+                                $('#recipient_email').text(data.email);
+                                $('#recipient_details').show();
+                                $('#insufficient-funds-message').hide(); // Hide message when recipient is found
+                            } else {
+                                $('#recipient_details').hide(); // Hide if not found
+                                alert(data.message);
+                            }
+                        },
+                        error: function() {
+                            alert('Error retrieving user details.');
+                        }
+                    });
+                } else {
+                    $('#recipient_details').hide(); // Hide details if no input
+                }
+            });
+
+            $('#transfer_amount').on('input', function() {
+                // Get current balance from the span
+                var currentBalance = parseFloat($('#current_balance').text());
+                // Get the amount entered
+                var transferAmount = parseFloat($(this).val());
+
+                // Check if the transfer amount is greater than the current balance
+                if (transferAmount > currentBalance) {
+                    $('#insufficient-funds-message').show(); // Show insufficient funds message
+                } else {
+                    $('#insufficient-funds-message').hide(); // Hide message if balance is sufficient
+                }
+            });
+        });
+    </script>
+    <br><br><br><br>
+     <!-- footer start -->
+     <footer class="bg-body-tertiary text-center">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+          <!-- Section: Social media -->
+          <section class="mb-4">
+            <!-- Facebook -->
+            <a
+            data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #3b5998;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+      
+            <!-- Twitter -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #55acee;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-twitter"></i
+            ></a>
+      
+            <!-- Google -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #dd4b39;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-google"></i
+            ></a>
+      
+            <!-- Instagram -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #ac2bac;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-instagram"></i
+            ></a>
+      
+            <!-- Linkedin -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #0082ca;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+            <!-- Github -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #333333;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-github"></i
+            ></a>
+          </section>
+          <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+      
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+          © 2024 Copyright: AshiQ & Swalih
+          <a class="text-body" href="https://mdbootstrap.com/">bankmanagement.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+</body>
+</html>

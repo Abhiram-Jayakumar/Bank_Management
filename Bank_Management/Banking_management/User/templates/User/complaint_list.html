@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint List</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <style>
+    nav{
+        text-transform: uppercase;
+      }
+   </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Complaint List</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Date Submitted</th> <!-- This will show created_at -->
+                    <th>Responded </th> <!-- This will show created_at -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ complaint.title }}</td>
+                        <td>{{ complaint.description }}</td>
+                        <td class="status {% if complaint.status == 'resolved' %}resolved{% else %}unresolved{% endif %}">
+                            {{ complaint.status|title }} <!-- Show the status, e.g., 'Resolved' or 'Unresolved' -->
+                        </td>
+                        <td>{{ complaint.created_at }}</td> <!-- Use created_at for submission date -->
+                        <td>{{ complaint.response }}</td> <!-- Use created_at for submission date -->
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No complaints found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

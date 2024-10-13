@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+    <style>
+      /* Card styling */
+      .card {
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+          overflow: hidden;
+          background-color: #fff;
+      }
+
+      .card-header {
+          background-color: #007bff;
+          color: white;
+          padding: 15px;
+          border-bottom: 0;
+          text-align: center;
+          font-weight: bold;
+          text-transform: uppercase;
+      }
+
+      .card-body {
+          padding: 20px;
+          font-size: 16px;
+      }
+
+      .card-body p {
+          margin-bottom: 15px;
+          font-size: 16px;
+      }
+
+      /* Styling for labels */
+      .card-body strong {
+          color: #007bff;
+      }
+
+      /* Button styling */
+      button {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          margin-top: 20px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          font-weight: bold;
+          transition: background-color 0.3s;
+      }
+
+      button:hover {
+          background-color: #0056b3;
+          cursor: pointer;
+      }
+
+      /* Container spacing */
+      .container {
+          max-width: 600px;
+          margin: 40px auto;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+          .container {
+              padding: 10px;
+          }
+      }
+      nav{
+        text-transform: uppercase;
+      }
+  </style>
+</head>
+<body>
+    <!-- navbar start -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'User:user_home'%}"><b><h1><i>Bank-Management</i></h1></b></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'User:user_home'%}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:user_profile'%}">user_profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:deposit'%}">deposit</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:transfer'%}">transfer</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:transaction_details'%}">transaction_details</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:register_complaint'%}">register_complaint</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'User:index'%}">Logout</a>
+              </li>
+              <li class="nav-item dropdown">
+                </a>
+                <ul class="dropdown-menu">
+                </ul>
+              </li>
+              <li class="nav-item">
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <!-- navbar end -->
+       <br><br><br>
+      <div class="container mt-2">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">User Profile</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Full Name:</strong> {{ user.full_name }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+                <p><strong>Address:</strong> {{ user.address }}</p>
+                <p><strong>Account Number:</strong> {{ user.account_number }}</p>
+                <p><strong>Account Type:</strong> {{ user.get_account_type_display }}</p>
+                <p><strong>Aadhaar:</strong> {{ user.Aadhaar }}</p>
+                <p><strong>PAN:</strong> {{ user.Pan }}</p>
+                <p><strong>Date Joined:</strong> {{ user.date_joined }}</p>
+                <form action="{% url 'User:update_password' %}" method="get">
+                    <button type="submit">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+     <!-- footer start -->
+     <footer class="bg-body-tertiary text-center">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+          <!-- Section: Social media -->
+          <section class="mb-4">
+            <!-- Facebook -->
+            <a
+            data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #3b5998;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+      
+            <!-- Twitter -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #55acee;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-twitter"></i
+            ></a>
+      
+            <!-- Google -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #dd4b39;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-google"></i
+            ></a>
+      
+            <!-- Instagram -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #ac2bac;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-instagram"></i
+            ></a>
+      
+            <!-- Linkedin -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #0082ca;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+            <!-- Github -->
+            <a
+              data-mdb-ripple-init
+              class="btn text-white btn-floating m-1"
+              style="background-color: #333333;"
+              href="#!"
+              role="button"
+              ><i class="fab fa-github"></i
+            ></a>
+          </section>
+          <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+      
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+          © 2024 Copyright: AshiQ & Swalih
+          <a class="text-body" href="https://mdbootstrap.com/">bankmanagement.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+</body>
+</html>
